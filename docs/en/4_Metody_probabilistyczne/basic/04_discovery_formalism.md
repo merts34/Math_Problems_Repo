@@ -210,10 +210,10 @@ Representation:
 6     . . . . . .
 ```
 
-Each cell corresponds to one outcome ((i,j)), where:
+Each cell corresponds to one outcome $(i,j)$, where:
 
-* (i) is the result of the first die,
-* (j) is the result of the second die.
+* $i$ is the result of the first die,
+* $j$ is the result of the second die.
 
 Use the notation:
 
@@ -231,14 +231,14 @@ If someone wants, they may also prepare an **HTML visualization**, but ASCII is 
 
 Mark the events corresponding to the following statements:
 
-* (A): the sum of the two results is equal to 7
-* (B): the first die shows a greater number than the second
-* (C): at least one die shows 6
+* $A$: the sum of the two results is equal to 7
+* $B$: the first die shows a greater number than the second
+* $C$: at least one die shows 6
 
 
 ## Part B — compound statements
 
-Using the events (A), (B), and (C), mark the events corresponding to the following statements:
+Using the events $A$, $B$, and $C$, mark the events corresponding to the following statements:
 
 1. the sum is 7 **or** at least one die shows 6
 2. the sum is 7 **and** at least one die shows 6
@@ -259,53 +259,53 @@ A student rolled a six-sided die **1000 times** and recorded the results.
 The numbers of occurrences of the elementary outcomes were:
 
 $$
-n({1})=168,\qquad
-n({2})=154,\qquad
-n({3})=181,
+n(\{1\})=168,\qquad
+n(\{2\})=154,\qquad
+n(\{3\})=181,
 $$
 
 $$
-n({4})=167,\qquad
-n({5})=160,\qquad
-n({6})=170.
+n(\{4\})=167,\qquad
+n(\{5\})=160,\qquad
+n(\{6\})=170.
 $$
 
 Thus the sample space of a single experiment is
 
 $$
-\Omega={1,2,3,4,5,6}.
+\Omega=\{1,2,3,4,5,6\}.
 $$
 
-Every event is a subset of (\Omega).
+Every event is a subset of $\Omega$.
 
-For any event (A\subseteq\Omega), define its **observed frequency** by
+For any event $A \subseteq \Omega$, define its **observed frequency** by
 
 $$
 f(A)=\frac{n(A)}{1000},
 $$
 
-where (n(A)) is the number of throws in which the event (A) occurred.
+where $n(A)$ is the number of throws in which the event $A$ occurred.
 
 ### Part A — From elementary outcomes to events
 
 Using the recorded data, compute the observed frequencies of the following events:
 
-1. (A={2,4,6})
-2. (B={1,2,3})
-3. (C={5,6})
-4. (D={1,3,5})
-5. (E={1,2,3,4})
+1. $A=\{2,4,6\}$
+2. $B=\{1,2,3\}$
+3. $C=\{5,6\}$
+4. $D=\{1,3,5\}$
+5. $E=\{1,2,3,4\}$
 
-In each case, first compute (n(A)), (n(B)), etc., and then compute (f(A)), (f(B)), etc.
+In each case, first compute $n(A)$, $n(B)$, etc., and then compute $f(A)$, $f(B)$, etc.
 
 ### Part B — How frequencies combine
 
 Using the same data, verify the following relationships:
 
-1. (f({2,4,6})=f({2})+f({4})+f({6}))
-2. (f({1,2,3,4})=f({1,2})+f({3,4}))
-3. (f({1,3,5})+f({2,4,6})=1)
-4. (f({5,6})=1-f({1,2,3,4}))
+1. $f(\{2,4,6\}) = f(\{2\}) + f(\{4\}) + f(\{6\})$
+2. $f(\{1,2,3,4\}) = f(\{1,2\}) + f(\{3,4\})$
+3. $f(\{1,3,5\}) + f(\{2,4,6\}) = 1$
+4. $f(\{5,6\}) = 1 - f(\{1,2,3,4\})$
 
 Explain in each case why the equality holds.
 
@@ -314,13 +314,13 @@ Explain in each case why the equality holds.
 1. Check that
 
 $$
-f({1,2}\cup{5,6})=f({1,2})+f({5,6}).
+f(\{1,2\}\cup\{5,6\}) = f(\{1,2\}) + f(\{5,6\}).
 $$
 
 2. Now consider the events
 
 $$
-M={1,2,3},\qquad N={3,4,5}.
+M=\{1,2,3\},\qquad N=\{3,4,5\}.
 $$
 
 Compute
@@ -335,33 +335,33 @@ $$
 f(M\cup N)\neq f(M)+f(N).
 $$
 
-4. Identify which elementary outcomes are counted twice in the sum (f(M)+f(N)).
+4. Identify which elementary outcomes are counted twice in the sum $f(M)+f(N)$.
 
 ### Part D — Covering the whole sample space
 
 Consider the six one-element events
 
 $$
-{1},{2},{3},{4},{5},{6}.
+\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}.
 $$
 
 1. Add their observed frequencies.
 2. Explain why the result must be equal to 1.
-3. Split (\Omega) into the three disjoint events
+3. Split $\Omega$ into the three disjoint events
 
 $$
-{1,2},\qquad {3,4},\qquad {5,6}
+\{1,2\},\qquad \{3,4\},\qquad \{5,6\}
 $$
 
 and compute the sum of their observed frequencies.
 4. Explain why this sum is also equal to 1.
-5. Formulate a general statement about any decomposition of (\Omega) into disjoint events.
+5. Formulate a general statement about any decomposition of $\Omega$ into disjoint events.
 
 ### Part E — From observed frequency to probability
 
 In the previous parts, you worked with observed frequencies obtained from **1000 real throws**.
 
-Now suppose that instead of working only with this one recorded experiment, we want to introduce a mathematical object that assigns a number to every event (A\subseteq\Omega), describing how often we expect this event to occur in repeated trials.
+Now suppose that instead of working only with this one recorded experiment, we want to introduce a mathematical object that assigns a number to every event $A \subseteq \Omega$, describing how often we expect this event to occur in repeated trials.
 
 Based on the previous parts, write down what properties such an assignment should have.
 
