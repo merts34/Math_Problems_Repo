@@ -1,1224 +1,694 @@
+
+
+---
+
 # Task 6 — Hypergeometric Distribution
 
----
+In this task, we study the hypergeometric distribution using a simple red-ball example.
 
-## 0. Experiment description: Sampling without replacement
+Assume that we have a box containing 10 balls.
 
-We consider a finite population of size:
-
-$$
-N
-$$
-
-Inside this population:
-
-* $K$ objects are success-type or distinguished objects.
-* $N-K$ objects are failure-type objects.
-
-We draw:
+There are:
 
 $$
-n
+4 \text{ red balls}
 $$
 
-objects without replacement.
-
-This means that after an object is selected, it is not returned to the population.
-
----
-
-## Sample space
-
-An elementary outcome is a subset of the population:
+and
 
 $$
-\omega \subseteq \{1,2,\dots,N\}
+6 \text{ white balls}.
 $$
 
-The size of this subset is:
+We randomly select 3 balls from the box without replacement.
+
+Therefore,
 
 $$
-|\omega|=n
+N = 10
 $$
 
-Therefore, the sample space is:
+is the total number of balls,
 
 $$
-\Omega=\{\text{all subsets of size } n \text{ from } \{1,2,\dots,N\}\}
+K = 4
 $$
 
-The number of possible samples is:
+is the number of red balls,
 
 $$
-|\Omega|=\binom{N}{n}
+N-K = 10-4 = 6
 $$
 
-Using the combination formula:
+is the number of white balls, and
 
 $$
-\binom{N}{n}
-=
-\frac{N!}{n!(N-n)!}
+n = 3
 $$
+
+is the number of selected balls.
+
+Let
+
+$$
+X = \text{the number of red balls in the sample}.
+$$
+
+In this example, red balls are the distinguished objects.
 
 ---
 
-## Elementary outcome
+# 0. Random Experiment, Sample Space, Elementary Outcome, and Random Variable
 
-One elementary outcome is one particular sample of size $n$.
+The random experiment is selecting 3 balls from a box of 10 balls without replacement.
 
-For example, let:
+The phrase “without replacement” means that once a ball is selected, it is not put back into the box before the next selection.
 
-$$
-N=10
-$$
+For example, if we first select one ball, then the number of balls in the box decreases from 10 to 9. After the second selection, it decreases from 9 to 8.
 
-and:
+So the selections are dependent, because the result of one selection changes the contents of the box for the next selection.
 
-$$
-n=3
-$$
-
-One possible elementary outcome is:
+The population is:
 
 $$
-\omega=\{2,5,9\}
+{1,2,3,4,5,6,7,8,9,10}.
 $$
 
-This means that objects numbered $2$, $5$, and $9$ were selected.
-
----
-
-## Random variable
-
-We define:
+Assume that the red balls are:
 
 $$
-X(\omega)=\text{number of distinguished objects in the sample}
+{1,2,3,4}
 $$
 
-So $X$ counts how many success-type objects appear in the selected sample.
-
-For example, suppose the distinguished objects are:
+and the white balls are:
 
 $$
-\{1,2,3,4\}
+{5,6,7,8,9,10}.
 $$
 
-and the selected sample is:
+The sample space is the set of all possible samples of size 3 from the 10 balls.
+
+So,
 
 $$
-\omega=\{2,5,9\}
+\Omega = { \text{all possible groups of 3 balls chosen from 10 balls} }.
 $$
 
-Only object $2$ is distinguished.
-
-Therefore:
+Some possible elementary outcomes are:
 
 $$
-X(\omega)=1
+{1,2,3},
 $$
 
----
-
-## Why this is different from the binomial distribution
-
-The key difference is:
-
-* Binomial distribution: independent trials.
-* Hypergeometric distribution: dependent draws because sampling is done without replacement.
-
-In the hypergeometric model, probabilities change after each draw.
-
-For example, suppose:
-
 $$
-N=10
+{1,5,9},
 $$
 
-and:
-
 $$
-K=4
+{2,6,10},
 $$
 
-At the beginning, the probability of selecting a success is:
-
 $$
-\frac{K}{N}
-=
-\frac{4}{10}
+{5,7,8}.
 $$
 
-If one success is selected, then the remaining population size becomes:
+An elementary outcome is one particular result of the experiment.
+
+For example,
 
 $$
-10-1=9
+\omega = {2,5,9}
 $$
 
-The remaining number of successes becomes:
+is one elementary outcome.
+
+Now we define the random variable:
 
 $$
-4-1=3
+X(\omega) = \text{the number of red balls in the selected sample}.
 $$
 
-So the new success probability becomes:
+If
 
 $$
-\frac{3}{9}
+\omega = {2,5,9},
 $$
 
-Therefore, the probability changed from:
+then only ball 2 is red. Balls 5 and 9 are white.
+
+Therefore,
 
 $$
-\frac{4}{10}
+X(\omega) = 1.
 $$
 
-to:
+If
 
 $$
-\frac{3}{9}
+\omega = {1,3,8},
 $$
 
-This is why the draws are dependent.
+then balls 1 and 3 are red, and ball 8 is white.
+
+Therefore,
+
+$$
+X(\omega) = 2.
+$$
+
+If
+
+$$
+\omega = {5,6,9},
+$$
+
+then none of the selected balls are red.
+
+Therefore,
+
+$$
+X(\omega) = 0.
+$$
+
+If
+
+$$
+\omega = {1,2,4},
+$$
+
+then all selected balls are red.
+
+Therefore,
+
+$$
+X(\omega) = 3.
+$$
+
+So, in this experiment, the random variable $X$ can count how many red balls appear in the sample.
 
 ---
 
 # 1. PMF of the Hypergeometric Distribution
 
----
+The PMF means probability mass function.
 
-## Goal
+It gives the probability that the random variable $X$ takes a specific value.
 
-We want to compute:
+In this problem,
 
 $$
 P(X=k)
 $$
 
-This means exactly $k$ successes in the sample of size $n$.
+means the probability that exactly $k$ red balls are selected.
 
----
-
-## Step 1 — Choose success objects
-
-There are:
-
-$$
-K
-$$
-
-success-type objects in the population.
-
-We want to choose:
-
-$$
-k
-$$
-
-success-type objects.
-
-The number of ways to do this is:
-
-$$
-\binom{K}{k}
-$$
-
-Using the combination formula:
-
-$$
-\binom{K}{k}
-=
-\frac{K!}{k!(K-k)!}
-$$
-
----
-
-## Step 2 — Choose failure objects
-
-The sample size is:
-
-$$
-n
-$$
-
-If we already selected:
-
-$$
-k
-$$
-
-success-type objects, then we still need:
-
-$$
-n-k
-$$
-
-failure-type objects.
-
-There are:
-
-$$
-N-K
-$$
-
-failure-type objects in the population.
-
-So the number of ways to choose the failure objects is:
-
-$$
-\binom{N-K}{n-k}
-$$
-
-Using the combination formula:
-
-$$
-\binom{N-K}{n-k}
-=
-\frac{(N-K)!}{(n-k)!((N-K)-(n-k))!}
-$$
-
----
-
-## Step 3 — Count all possible samples
-
-The total number of ways to choose $n$ objects from a population of size $N$ is:
-
-$$
-\binom{N}{n}
-$$
-
-Using the combination formula:
-
-$$
-\binom{N}{n}
-=
-\frac{N!}{n!(N-n)!}
-$$
-
----
-
-## Step 4 — Build the probability
-
-The number of favorable samples is:
-
-$$
-\binom{K}{k}\binom{N-K}{n-k}
-$$
-
-The total number of possible samples is:
-
-$$
-\binom{N}{n}
-$$
-
-Therefore:
+The hypergeometric PMF is:
 
 $$
 P(X=k)
 =
-\frac{\text{favorable samples}}{\text{all possible samples}}
+
+\frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}.
 $$
 
-So:
+For our example,
+
+$$
+N=10,
+$$
+
+$$
+K=4,
+$$
+
+$$
+N-K=6,
+$$
+
+and
+
+$$
+n=3.
+$$
+
+Therefore,
 
 $$
 P(X=k)
 =
-\frac{\binom{K}{k}\binom{N-K}{n-k}}
-{\binom{N}{n}}
+
+\frac{\binom{4}{k}\binom{6}{3-k}}{\binom{10}{3}}.
 $$
 
----
+Now we explain the formula.
 
-## Explanation of parameters
-
-In the formula:
+The term
 
 $$
-P(X=k)
+\binom{4}{k}
+$$
+
+means choosing $k$ red balls from 4 red balls.
+
+The term
+
+$$
+\binom{6}{3-k}
+$$
+
+means choosing the remaining $3-k$ balls from the 6 white balls.
+
+The denominator
+
+$$
+\binom{10}{3}
+$$
+
+means choosing any 3 balls from the total 10 balls.
+
+So the formula is based on:
+
+$$
+\text{Probability}
 =
-\frac{\binom{K}{k}\binom{N-K}{n-k}}
-{\binom{N}{n}}
+
+\frac{\text{Number of favorable outcomes}}{\text{Number of all possible outcomes}}.
 $$
-
-we have:
-
-* $N$: total population size.
-* $K$: number of distinguished or success-type objects in the population.
-* $N-K$: number of failure-type objects in the population.
-* $n$: sample size.
-* $k$: number of success-type objects in the sample.
-* $X$: random variable counting the number of successes.
 
 ---
 
 # 2. Support of the Random Variable
 
----
+The support is the set of all possible values that $X$ can take.
 
-The random variable $X$ can take values from the smallest possible number of successes to the largest possible number of successes.
+In this problem, we select 3 balls.
 
-The support is:
-
-$$
-X \in \{\max(0,n-(N-K)), \dots, \min(n,K)\}
-$$
-
----
-
-## Lower bound
-
-The number of successes cannot be negative.
-
-So:
+So the number of red balls in the sample can be:
 
 $$
-X \ge 0
+0,1,2,3.
 $$
 
-However, if the sample size is large, we may be forced to pick some successes.
+It cannot be 4, because we only select 3 balls.
 
-There are:
-
-$$
-N-K
-$$
-
-failure-type objects.
-
-If we draw:
+Therefore, the support is:
 
 $$
-n
+{0,1,2,3}.
 $$
 
-objects and there are not enough failures, then we must draw successes.
-
-The minimum number of successes is:
+So,
 
 $$
-n-(N-K)
-$$
-
-So the real lower bound is:
-
-$$
-\max(0,n-(N-K))
+X \in {0,1,2,3}.
 $$
 
 ---
 
-## Upper bound
+# 3. PMF Calculations and PMF Graph
 
-We cannot pick more successes than the sample size.
-
-So:
-
-$$
-X \le n
-$$
-
-We also cannot pick more successes than the number of successes in the population.
-
-So:
-
-$$
-X \le K
-$$
-
-Therefore, the upper bound is:
-
-$$
-\min(n,K)
-$$
-
----
-
-# 3. CDF of the Hypergeometric Distribution
-
----
-
-## Definition
-
-The cumulative distribution function is:
-
-$$
-F(k)=P(X \le k)
-$$
-
-This means the probability of getting at most $k$ successes.
-
----
-
-## Formula
-
-$$
-F(k)
-=
-\sum_{i=\max(0,n-(N-K))}^{k}
-\frac{\binom{K}{i}\binom{N-K}{n-i}}
-{\binom{N}{n}}
-$$
-
----
-
-## Why summation is used
-
-Because the hypergeometric distribution is discrete.
-
-So:
-
-$$
-P(X \le k)
-=
-P(X=0)+P(X=1)+\cdots+P(X=k)
-$$
-
-More generally:
-
-$$
-F(k)=\sum_{i \le k} P(X=i)
-$$
-
----
-
-# 4. Shape Behavior of the PMF
-
----
-
-The hypergeometric distribution is similar to the binomial distribution, but it does not assume independence.
-
-The reason is that the sampling is done without replacement.
-
-When the population is large compared to the sample size, the hypergeometric distribution becomes close to the binomial distribution.
-
-In words:
-
-Hypergeometric with parameters $N$, $K$, and $n$ is approximately binomial with sample size $n$ and success probability:
-
-$$
-p=\frac{K}{N}
-$$
-
-This approximation works when $N$ is large compared to $n$.
-
-For example, if:
-
-$$
-N=100000
-$$
-
-then removing one object gives:
-
-$$
-100000-1=99999
-$$
-
-The population size barely changes.
-
-So the success probability is almost constant.
-
-Therefore, the hypergeometric distribution becomes close to the binomial distribution.
-
----
-
-# 5. Effect of Parameters
-
----
-
-## Increasing the sample size
-
-The expected value of a hypergeometric random variable is:
-
-$$
-E(X)=n\frac{K}{N}
-$$
-
-If $n$ increases, then:
-
-$$
-n\frac{K}{N}
-$$
-
-also increases.
-
-Therefore:
-
-* the expected number of successes increases,
-* the distribution shifts to the right,
-* the possible range of values becomes larger.
-
----
-
-## Increasing the number of distinguished objects
-
-The expected value is:
-
-$$
-E(X)=n\frac{K}{N}
-$$
-
-If $K$ increases, then:
-
-$$
-\frac{K}{N}
-$$
-
-increases.
-
-Therefore:
-
-$$
-n\frac{K}{N}
-$$
-
-also increases.
-
-So:
-
-* the distribution shifts to the right,
-* the probability of getting more successes increases,
-* the expected number of successes increases.
-
----
-
-## Changing population size
-
-When $N$ is large compared to $n$, removing one object does not change the probabilities very much.
-
-So the hypergeometric distribution becomes close to the binomial distribution with:
-
-$$
-p=\frac{K}{N}
-$$
-
-When $N$ is small, removing one object changes the population a lot.
-
-So the dependence effect becomes stronger.
-
----
-
-# 6. Detailed Probability Computations
-
-We use this example:
-
-$$
-N=50
-$$
-
-$$
-K=10
-$$
-
-$$
-n=5
-$$
-
-So:
-
-$$
-N-K=50-10
-$$
-
-$$
-N-K=40
-$$
-
-The denominator is:
-
-$$
-\binom{50}{5}
-$$
-
-Now compute it step by step:
-
-$$
-\binom{50}{5}
-=
-\frac{50!}{5!(50-5)!}
-$$
-
-$$
-50-5=45
-$$
-
-So:
-
-$$
-\binom{50}{5}
-=
-\frac{50!}{5!45!}
-$$
-
-Cancel $45!$:
-
-$$
-\binom{50}{5}
-=
-\frac{50\cdot49\cdot48\cdot47\cdot46}{5\cdot4\cdot3\cdot2\cdot1}
-$$
-
-Compute the numerator:
-
-$$
-50\cdot49=2450
-$$
-
-$$
-2450\cdot48=117600
-$$
-
-$$
-117600\cdot47=5527200
-$$
-
-$$
-5527200\cdot46=254251200
-$$
-
-Compute the denominator:
-
-$$
-5\cdot4=20
-$$
-
-$$
-20\cdot3=60
-$$
-
-$$
-60\cdot2=120
-$$
-
-$$
-120\cdot1=120
-$$
-
-So:
-
-$$
-\binom{50}{5}
-=
-\frac{254251200}{120}
-$$
-
-$$
-\binom{50}{5}
-=
-2118760
-$$
-
-Therefore:
-
-$$
-\binom{50}{5}=2118760
-$$
-
----
-
-## Exact probability example
-
-We compute the probability of getting exactly $2$ successes.
-
-That is:
-
-$$
-P(X=2)
-$$
-
-Using the PMF formula:
-
-$$
-P(X=2)
-=
-\frac{\binom{10}{2}\binom{40}{5-2}}
-{\binom{50}{5}}
-$$
-
-First compute:
-
-$$
-5-2=3
-$$
-
-So:
-
-$$
-P(X=2)
-=
-\frac{\binom{10}{2}\binom{40}{3}}
-{\binom{50}{5}}
-$$
-
-Now compute:
-
-$$
-\binom{10}{2}
-=
-\frac{10!}{2!(10-2)!}
-$$
-
-$$
-10-2=8
-$$
-
-So:
-
-$$
-\binom{10}{2}
-=
-\frac{10!}{2!8!}
-$$
-
-Cancel $8!$:
-
-$$
-\binom{10}{2}
-=
-\frac{10\cdot9}{2\cdot1}
-$$
-
-Compute:
-
-$$
-10\cdot9=90
-$$
-
-$$
-2\cdot1=2
-$$
-
-So:
-
-$$
-\binom{10}{2}
-=
-\frac{90}{2}
-$$
-
-$$
-\binom{10}{2}=45
-$$
-
-Now compute:
-
-$$
-\binom{40}{3}
-=
-\frac{40!}{3!(40-3)!}
-$$
-
-$$
-40-3=37
-$$
-
-So:
-
-$$
-\binom{40}{3}
-=
-\frac{40!}{3!37!}
-$$
-
-Cancel $37!$:
-
-$$
-\binom{40}{3}
-=
-\frac{40\cdot39\cdot38}{3\cdot2\cdot1}
-$$
-
-Compute the numerator:
-
-$$
-40\cdot39=1560
-$$
-
-$$
-1560\cdot38=59280
-$$
-
-Compute the denominator:
-
-$$
-3\cdot2\cdot1=6
-$$
-
-So:
-
-$$
-\binom{40}{3}
-=
-\frac{59280}{6}
-$$
-
-$$
-\binom{40}{3}=9880
-$$
-
-Now substitute everything:
-
-$$
-P(X=2)
-=
-\frac{45\cdot9880}{2118760}
-$$
-
-Compute the numerator:
-
-$$
-45\cdot9880=444600
-$$
-
-So:
-
-$$
-P(X=2)
-=
-\frac{444600}{2118760}
-$$
-
-Divide:
-
-$$
-P(X=2)\approx0.2098
-$$
-
----
-
-## Cumulative probability example
-
-We compute:
-
-$$
-P(X \le 2)
-$$
-
-This means:
-
-$$
-P(X \le 2)=P(X=0)+P(X=1)+P(X=2)
-$$
-
----
-
-### Calculate P of X equals 0
-
-$$
-P(X=0)
-=
-\frac{\binom{10}{0}\binom{40}{5}}
-{\binom{50}{5}}
-$$
-
-$$
-\binom{10}{0}=1
-$$
-
-$$
-\binom{40}{5}=658008
-$$
-
-So:
-
-$$
-P(X=0)
-=
-\frac{1\cdot658008}{2118760}
-$$
-
-$$
-P(X=0)
-=
-\frac{658008}{2118760}
-$$
-
-$$
-P(X=0)\approx0.3106
-$$
-
----
-
-### Calculate P of X equals 1
-
-$$
-P(X=1)
-=
-\frac{\binom{10}{1}\binom{40}{4}}
-{\binom{50}{5}}
-$$
-
-$$
-\binom{10}{1}=10
-$$
-
-$$
-\binom{40}{4}=91390
-$$
-
-Compute:
-
-$$
-10\cdot91390=913900
-$$
-
-So:
-
-$$
-P(X=1)
-=
-\frac{913900}{2118760}
-$$
-
-Divide:
-
-$$
-P(X=1)\approx0.4313
-$$
-
----
-
-### Use previous value for P of X equals 2
-
-From the previous calculation:
-
-$$
-P(X=2)
-=
-\frac{444600}{2118760}
-$$
-
----
-
-### Add the probabilities
-
-Now:
-
-$$
-P(X \le 2)
-=
-\frac{658008}{2118760}
-+
-\frac{913900}{2118760}
-+
-\frac{444600}{2118760}
-$$
-
-Since the denominators are the same, we add the numerators.
-
-First:
-
-$$
-658008+913900=1571908
-$$
-
-Then:
-
-$$
-1571908+444600=2016508
-$$
-
-So:
-
-$$
-P(X \le 2)
-=
-\frac{2016508}{2118760}
-$$
-
-Divide:
-
-$$
-P(X \le 2)\approx0.9517
-$$
-
----
-
-## Tail probability example
-
-We compute:
-
-$$
-P(X \ge 3)
-$$
-
-This is the complement of:
-
-$$
-P(X \le 2)
-$$
-
-So:
-
-$$
-P(X \ge 3)=1-P(X \le 2)
-$$
-
-From above:
-
-$$
-P(X \le 2)=\frac{2016508}{2118760}
-$$
-
-Write $1$ with the same denominator:
-
-$$
-1=\frac{2118760}{2118760}
-$$
-
-Therefore:
-
-$$
-P(X \ge 3)
-=
-\frac{2118760}{2118760}
--
-\frac{2016508}{2118760}
-$$
-
-Subtract the numerators:
-
-$$
-2118760-2016508=102252
-$$
-
-So:
-
-$$
-P(X \ge 3)
-=
-\frac{102252}{2118760}
-$$
-
-Divide:
-
-$$
-P(X \ge 3)\approx0.0483
-$$
-
----
-
-## Interval probability example
-
-We compute:
-
-$$
-P(1 \le X \le 3)
-$$
-
-This means:
-
-$$
-P(1 \le X \le 3)
-=
-P(X=1)+P(X=2)+P(X=3)
-$$
-
-We already have:
-
-$$
-P(X=1)
-=
-\frac{913900}{2118760}
-$$
-
-and:
-
-$$
-P(X=2)
-=
-\frac{444600}{2118760}
-$$
-
-Now compute:
-
-$$
-P(X=3)
-$$
-
-Using the PMF formula:
-
-$$
-P(X=3)
-=
-\frac{\binom{10}{3}\binom{40}{5-3}}
-{\binom{50}{5}}
-$$
-
-Compute:
-
-$$
-5-3=2
-$$
-
-So:
-
-$$
-P(X=3)
-=
-\frac{\binom{10}{3}\binom{40}{2}}
-{\binom{50}{5}}
-$$
-
-Compute:
+We first calculate the denominator:
 
 $$
 \binom{10}{3}
 =
-\frac{10\cdot9\cdot8}{3\cdot2\cdot1}
+
+\frac{10 \cdot 9 \cdot 8}{3 \cdot 2 \cdot 1}.
 $$
 
-$$
-10\cdot9=90
-$$
+Now calculate the numerator:
 
 $$
-90\cdot8=720
+10 \cdot 9 \cdot 8 = 720.
 $$
 
+And the denominator:
+
 $$
-3\cdot2\cdot1=6
+3 \cdot 2 \cdot 1 = 6.
 $$
 
-So:
+Therefore,
 
 $$
 \binom{10}{3}
 =
 \frac{720}{6}
-$$
-
-$$
-\binom{10}{3}=120
-$$
-
-Compute:
-
-$$
-\binom{40}{2}
 =
-\frac{40\cdot39}{2\cdot1}
+120.
 $$
 
-$$
-40\cdot39=1560
-$$
+So there are 120 possible ways to choose 3 balls from 10 balls.
+
+---
+
+## Case 1: $P(X=0)$
+
+This means selecting exactly 0 red balls.
+
+So we need:
 
 $$
-2\cdot1=2
+0 \text{ red balls}
 $$
 
-So:
+and
 
 $$
-\binom{40}{2}
+3 \text{ white balls}.
+$$
+
+Using the formula:
+
+$$
+P(X=0)
 =
-\frac{1560}{2}
+
+\frac{\binom{4}{0}\binom{6}{3}}{\binom{10}{3}}.
 $$
 
+First,
+
 $$
-\binom{40}{2}=780
+\binom{4}{0}=1.
+$$
+
+This is because there is exactly one way to choose nothing.
+
+Now calculate:
+
+$$
+\binom{6}{3}
+=
+
+\frac{6 \cdot 5 \cdot 4}{3 \cdot 2 \cdot 1}.
+$$
+
+The numerator is:
+
+$$
+6 \cdot 5 \cdot 4 = 120.
+$$
+
+The denominator is:
+
+$$
+3 \cdot 2 \cdot 1 = 6.
+$$
+
+Therefore,
+
+$$
+\binom{6}{3}
+=
+\frac{120}{6}
+=
+20.
+$$
+
+Now substitute:
+
+$$
+P(X=0)
+=
+
+\frac{1 \cdot 20}{120}.
+$$
+
+So,
+
+$$
+P(X=0)
+=
+
+\frac{20}{120}.
+$$
+
+Simplify:
+
+$$
+P(X=0)
+=
+
+\frac{1}{6}.
+$$
+
+Decimal form:
+
+$$
+P(X=0)
+\approx 0.1667.
+$$
+
+---
+
+## Case 2: $P(X=1)$
+
+This means selecting exactly 1 red ball.
+
+So we need:
+
+$$
+1 \text{ red ball}
+$$
+
+and
+
+$$
+2 \text{ white balls}.
+$$
+
+Using the formula:
+
+$$
+P(X=1)
+=
+
+\frac{\binom{4}{1}\binom{6}{2}}{\binom{10}{3}}.
+$$
+
+First,
+
+$$
+\binom{4}{1}=4.
+$$
+
+Now calculate:
+
+$$
+\binom{6}{2}
+=
+
+\frac{6 \cdot 5}{2 \cdot 1}.
+$$
+
+The numerator is:
+
+$$
+6 \cdot 5 = 30.
+$$
+
+The denominator is:
+
+$$
+2 \cdot 1 = 2.
+$$
+
+Therefore,
+
+$$
+\binom{6}{2}
+=
+\frac{30}{2}
+=
+15.
+$$
+
+Now substitute:
+
+$$
+P(X=1)
+=
+
+\frac{4 \cdot 15}{120}.
+$$
+
+Multiply:
+
+$$
+4 \cdot 15 = 60.
+$$
+
+Therefore,
+
+$$
+P(X=1)
+=
+
+\frac{60}{120}.
+$$
+
+Simplify:
+
+$$
+P(X=1)
+=
+
+\frac{1}{2}.
+$$
+
+Decimal form:
+
+$$
+P(X=1)
+=
+
+0.5.
+$$
+
+---
+
+## Case 3: $P(X=2)$
+
+This means selecting exactly 2 red balls.
+
+So we need:
+
+$$
+2 \text{ red balls}
+$$
+
+and
+
+$$
+1 \text{ white ball}.
+$$
+
+Using the formula:
+
+$$
+P(X=2)
+=
+
+\frac{\binom{4}{2}\binom{6}{1}}{\binom{10}{3}}.
+$$
+
+First calculate:
+
+$$
+\binom{4}{2}
+=
+
+\frac{4 \cdot 3}{2 \cdot 1}.
+$$
+
+The numerator is:
+
+$$
+4 \cdot 3 = 12.
+$$
+
+The denominator is:
+
+$$
+2 \cdot 1 = 2.
+$$
+
+Therefore,
+
+$$
+\binom{4}{2}
+=
+\frac{12}{2}
+=
+6.
+$$
+
+Also,
+
+$$
+\binom{6}{1}=6.
+$$
+
+Now substitute:
+
+$$
+P(X=2)
+=
+
+\frac{6 \cdot 6}{120}.
+$$
+
+Multiply:
+
+$$
+6 \cdot 6 = 36.
+$$
+
+Therefore,
+
+$$
+P(X=2)
+=
+
+\frac{36}{120}.
+$$
+
+Simplify:
+
+$$
+P(X=2)
+=
+
+\frac{3}{10}.
+$$
+
+Decimal form:
+
+$$
+P(X=2)
+=
+
+0.3.
+$$
+
+---
+
+## Case 4: $P(X=3)$
+
+This means selecting exactly 3 red balls.
+
+So we need:
+
+$$
+3 \text{ red balls}
+$$
+
+and
+
+$$
+0 \text{ white balls}.
+$$
+
+Using the formula:
+
+$$
+P(X=3)
+=
+
+\frac{\binom{4}{3}\binom{6}{0}}{\binom{10}{3}}.
+$$
+
+First,
+
+$$
+\binom{4}{3}=4.
+$$
+
+Also,
+
+$$
+\binom{6}{0}=1.
 $$
 
 Now substitute:
@@ -1226,928 +696,1603 @@ Now substitute:
 $$
 P(X=3)
 =
-\frac{120\cdot780}{2118760}
+
+\frac{4 \cdot 1}{120}.
 $$
 
-Compute:
-
-$$
-120\cdot780=93600
-$$
-
-So:
+Therefore,
 
 $$
 P(X=3)
 =
-\frac{93600}{2118760}
+
+\frac{4}{120}.
 $$
 
-Now add:
+Simplify:
 
 $$
-P(1 \le X \le 3)
+P(X=3)
 =
-\frac{913900}{2118760}
-+
-\frac{444600}{2118760}
-+
-\frac{93600}{2118760}
+
+\frac{1}{30}.
 $$
 
-Add the numerators:
+Decimal form:
 
 $$
-913900+444600=1358500
-$$
-
-$$
-1358500+93600=1452100
-$$
-
-So:
-
-$$
-P(1 \le X \le 3)
-=
-\frac{1452100}{2118760}
-$$
-
-Divide:
-
-$$
-P(1 \le X \le 3)\approx0.6854
+P(X=3)
+\approx 0.0333.
 $$
 
 ---
 
-# 7. Hypergeometric Model vs Binomial Model
+## PMF Table
 
----
+| $x$ | Meaning             | $P(X=x)$ |
+| --: | ------------------- | -------: |
+|   0 | No red balls        | $0.1667$ |
+|   1 | Exactly 1 red ball  | $0.5000$ |
+|   2 | Exactly 2 red balls | $0.3000$ |
+|   3 | Exactly 3 red balls | $0.0333$ |
 
-## Binomial distribution
-
-The binomial distribution is used when:
-
-* trials are independent,
-* the probability of success is constant,
-* sampling is with replacement or the population is effectively infinite.
-
-Its PMF is:
+The probabilities add up to 1:
 
 $$
-P(Y=k)=\binom{n}{k}p^k(1-p)^{n-k}
+0.1667 + 0.5000 + 0.3000 + 0.0333 = 1.
 $$
 
 ---
 
-## Hypergeometric distribution
+## PMF Graph
 
-The hypergeometric distribution is used when:
+The PMF graph has $x$ values on the horizontal axis and probabilities on the vertical axis.
 
-* draws are dependent,
-* sampling is without replacement,
-* the population is finite.
+| $x$ | $P(X=x)$ | Bar             |
+| --: | -------: | --------------- |
+|   0 |   0.1667 | █████           |
+|   1 |   0.5000 | ███████████████ |
+|   2 |   0.3000 | █████████       |
+|   3 |   0.0333 | █               |
 
-Its PMF is:
+The largest probability is at:
 
 $$
-P(X=k)
-=
-\frac{\binom{K}{k}\binom{N-K}{n-k}}
-{\binom{N}{n}}
+X=1.
+$$
+
+So, in this example, the most likely result is selecting exactly 1 red ball.
+
+---
+
+# 4. CDF Calculations and CDF Graph
+
+The CDF means cumulative distribution function.
+
+It is defined as:
+
+$$
+F(k)=P(X \leq k).
+$$
+
+This means the probability that $X$ is less than or equal to $k$.
+
+We already know:
+
+$$
+P(X=0)=\frac{20}{120},
+$$
+
+$$
+P(X=1)=\frac{60}{120},
+$$
+
+$$
+P(X=2)=\frac{36}{120},
+$$
+
+$$
+P(X=3)=\frac{4}{120}.
 $$
 
 ---
 
-## Key difference
+## $F(0)=P(X \leq 0)$
 
-| Binomial | Hypergeometric |
-|---|---|
-| independent trials | dependent draws |
-| constant probability | changing probability |
-| with replacement conceptually | without replacement |
-| infinite or very large population | finite population |
-| parameter $p$ | parameters $N$, $K$, $n$ |
-
----
-
-# 8. Real-World Applications
-
----
-
-## Quality inspection
-
-A factory produces a batch of products.
-
-Some products are defective and some are not defective.
-
-If we inspect a few products without replacement, then the number of defective products in the sample follows a hypergeometric distribution.
-
----
-
-## Card games
-
-Cards are drawn from a deck without replacement.
-
-The number of aces, hearts, or special cards in a hand can be modeled by a hypergeometric distribution.
-
----
-
-## Election sampling
-
-A fixed population contains voters with different preferences.
-
-If we select voters without replacement, the number of voters supporting a candidate can be modeled with a hypergeometric distribution.
-
----
-
-## Biology
-
-In biology, we may sample genes, organisms, or individuals from a finite population.
-
-The number of individuals with a certain trait can be modeled using a hypergeometric distribution.
-
----
-
-# 9. PMF Graphs for Several Parameter Choices
-
-The following graphs are written as Markdown bar charts.
-
-Each bar shows the relative size of the probability.
-
----
-
-## PMF Graph 1
-
-Parameters:
+This includes only:
 
 $$
-N=50
+X=0.
 $$
 
-$$
-K=10
-$$
+So,
 
 $$
-n=5
+F(0)=P(X=0).
 $$
 
-So:
+Therefore,
 
 $$
-N-K=50-10=40
+F(0)=\frac{20}{120}.
 $$
 
-The denominator is:
+So,
 
 $$
-\binom{50}{5}=2118760
-$$
-
-The PMF formula becomes:
-
-$$
-P(X=k)
-=
-\frac{\binom{10}{k}\binom{40}{5-k}}
-{2118760}
-$$
-
-| k | P(X = k) | PMF graph |
-|---:|---:|---|
-| 0 | 0.3106 | ██████████████ |
-| 1 | 0.4313 | ████████████████████ |
-| 2 | 0.2098 | ██████████ |
-| 3 | 0.0442 | ██ |
-| 4 | 0.0040 | █ |
-| 5 | 0.0001 | █ |
-
-This distribution is skewed because the number of success-type objects is relatively small compared to the full population.
-
----
-
-## PMF Graph 2
-
-Parameters:
-
-$$
-N=50
-$$
-
-$$
-K=25
-$$
-
-$$
-n=5
-$$
-
-So:
-
-$$
-N-K=50-25=25
-$$
-
-The denominator is:
-
-$$
-\binom{50}{5}=2118760
-$$
-
-The PMF formula becomes:
-
-$$
-P(X=k)
-=
-\frac{\binom{25}{k}\binom{25}{5-k}}
-{2118760}
-$$
-
-| k | Calculation | Numerator | P(X = k) | PMF graph |
-|---:|---|---:|---:|---|
-| 0 | C(25,0) C(25,5) = 1 x 53130 | 53130 | 0.0251 | ██ |
-| 1 | C(25,1) C(25,4) = 25 x 12650 | 316250 | 0.1493 | █████████ |
-| 2 | C(25,2) C(25,3) = 300 x 2300 | 690000 | 0.3257 | ████████████████████ |
-| 3 | C(25,3) C(25,2) = 2300 x 300 | 690000 | 0.3257 | ████████████████████ |
-| 4 | C(25,4) C(25,1) = 12650 x 25 | 316250 | 0.1493 | █████████ |
-| 5 | C(25,5) C(25,0) = 53130 x 1 | 53130 | 0.0251 | ██ |
-
-This distribution is almost symmetric because half of the population consists of success-type objects.
-
----
-
-## PMF Graph 3
-
-Parameters:
-
-$$
-N=50
-$$
-
-$$
-K=25
-$$
-
-$$
-n=15
-$$
-
-So:
-
-$$
-N-K=50-25=25
-$$
-
-The denominator is:
-
-$$
-\binom{50}{15}=2250829575120
-$$
-
-The PMF formula becomes:
-
-$$
-P(X=k)
-=
-\frac{\binom{25}{k}\binom{25}{15-k}}
-{2250829575120}
-$$
-
-| k | Numerator | P(X = k) | PMF graph |
-|---:|---:|---:|---|
-| 0 | 3268760 | 0.000001 |  |
-| 1 | 111435000 | 0.000050 |  |
-| 2 | 1560090000 | 0.0007 | █ |
-| 3 | 11960690000 | 0.0053 | █ |
-| 4 | 56386110000 | 0.0251 | ██ |
-| 5 | 173669218800 | 0.0772 | ███████ |
-| 6 | 361810872500 | 0.1607 | ██████████████ |
-| 7 | 519913102500 | 0.2310 | ████████████████████ |
-| 8 | 519913102500 | 0.2310 | ████████████████████ |
-| 9 | 361810872500 | 0.1607 | ██████████████ |
-| 10 | 173669218800 | 0.0772 | ███████ |
-| 11 | 56386110000 | 0.0251 | ██ |
-| 12 | 11960690000 | 0.0053 | █ |
-| 13 | 1560090000 | 0.0007 | █ |
-| 14 | 111435000 | 0.000050 |  |
-| 15 | 3268760 | 0.000001 |  |
-
-This distribution has a wider range because the sample size is larger.
-
----
-
-# 10. CDF Graphs for the Same Parameter Choices
-
-The CDF is the cumulative sum of PMF values.
-
-So:
-
-$$
-F(k)=P(X \le k)
-$$
-
-and:
-
-$$
-F(k)=P(X=0)+P(X=1)+\cdots+P(X=k)
+F(0)=0.1667.
 $$
 
 ---
 
-## CDF Graph 1
+## $F(1)=P(X \leq 1)$
 
-Parameters:
+This includes:
 
 $$
-N=50
+X=0
 $$
 
-$$
-K=10
-$$
-
-$$
-n=5
-$$
-
-Using the PMF values from Graph 1:
-
-$$
-P(X=0)=0.3106
-$$
-
-$$
-P(X=1)=0.4313
-$$
-
-$$
-P(X=2)=0.2098
-$$
-
-$$
-P(X=3)=0.0442
-$$
-
-$$
-P(X=4)=0.0040
-$$
-
-$$
-P(X=5)=0.0001
-$$
-
-Now compute the CDF step by step.
-
-For $k=0$:
-
-$$
-F(0)=P(X=0)
-$$
-
-$$
-F(0)=0.3106
-$$
-
-For $k=1$:
-
-$$
-F(1)=P(X=0)+P(X=1)
-$$
-
-$$
-F(1)=0.3106+0.4313
-$$
-
-$$
-F(1)=0.7419
-$$
-
-For $k=2$:
-
-$$
-F(2)=P(X=0)+P(X=1)+P(X=2)
-$$
-
-$$
-F(2)=0.3106+0.4313+0.2098
-$$
-
-First:
-
-$$
-0.3106+0.4313=0.7419
-$$
-
-Then:
-
-$$
-0.7419+0.2098=0.9517
-$$
-
-So:
-
-$$
-F(2)=0.9517
-$$
-
-For $k=3$:
-
-$$
-F(3)=F(2)+P(X=3)
-$$
-
-$$
-F(3)=0.9517+0.0442
-$$
-
-$$
-F(3)=0.9959
-$$
-
-For $k=4$:
-
-$$
-F(4)=F(3)+P(X=4)
-$$
-
-$$
-F(4)=0.9959+0.0040
-$$
-
-$$
-F(4)=0.9999
-$$
-
-For $k=5$:
-
-$$
-F(5)=F(4)+P(X=5)
-$$
-
-$$
-F(5)=0.9999+0.0001
-$$
-
-$$
-F(5)=1.0000
-$$
-
-| k | F(k) = P(X <= k) | CDF graph |
-|---:|---:|---|
-| 0 | 0.3106 | ██████ |
-| 1 | 0.7419 | ███████████████ |
-| 2 | 0.9517 | ███████████████████ |
-| 3 | 0.9959 | ████████████████████ |
-| 4 | 0.9999 | ████████████████████ |
-| 5 | 1.0000 | ████████████████████ |
-
----
-
-## CDF Graph 2
-
-Parameters:
-
-$$
-N=50
-$$
-
-$$
-K=25
-$$
-
-$$
-n=5
-$$
-
-The CDF is computed by adding PMF values step by step.
-
-| k | CDF calculation | F(k) | CDF graph |
-|---:|---|---:|---|
-| 0 | 0.0251 | 0.0251 | █ |
-| 1 | 0.0251 + 0.1493 | 0.1743 | ███ |
-| 2 | 0.1743 + 0.3257 | 0.5000 | ██████████ |
-| 3 | 0.5000 + 0.3257 | 0.8257 | █████████████████ |
-| 4 | 0.8257 + 0.1493 | 0.9749 | ███████████████████ |
-| 5 | 0.9749 + 0.0251 | 1.0000 | ████████████████████ |
-
----
-
-## CDF Graph 3
-
-Parameters:
-
-$$
-N=50
-$$
-
-$$
-K=25
-$$
-
-$$
-n=15
-$$
-
-The CDF is again computed by cumulative addition.
-
-| k | F(k) = P(X <= k) | CDF graph |
-|---:|---:|---|
-| 0 | 0.000001 |  |
-| 1 | 0.000051 |  |
-| 2 | 0.000744 |  |
-| 3 | 0.006058 | █ |
-| 4 | 0.031109 | █ |
-| 5 | 0.108267 | ██ |
-| 6 | 0.269013 | █████ |
-| 7 | 0.500000 | ██████████ |
-| 8 | 0.730987 | ███████████████ |
-| 9 | 0.891733 | ██████████████████ |
-| 10 | 0.968891 | ███████████████████ |
-| 11 | 0.993942 | ████████████████████ |
-| 12 | 0.999256 | ████████████████████ |
-| 13 | 0.999949 | ████████████████████ |
-| 14 | 0.999999 | ████████████████████ |
-| 15 | 1.000000 | ████████████████████ |
-
----
-
-# 11. Application with Binomial Comparison
-
----
-
-## Practical example: Quality inspection
-
-Suppose a factory has a batch of:
-
-$$
-N=100
-$$
-
-products.
-
-Among them:
-
-$$
-K=20
-$$
-
-products are defective.
-
-We randomly inspect:
-
-$$
-n=10
-$$
-
-products without replacement.
-
-Let:
-
-$$
-X=\text{number of defective products in the sample}
-$$
-
-Then $X$ follows a hypergeometric distribution with parameters:
-
-$$
-N=100
-$$
-
-$$
-K=20
-$$
+and
 
 $$
-n=10
+X=1.
 $$
 
-The corresponding binomial approximation uses:
+So,
 
 $$
-p=\frac{K}{N}
+F(1)=P(X=0)+P(X=1).
 $$
 
 Substitute:
 
 $$
-p=\frac{20}{100}
+F(1)=\frac{20}{120}+\frac{60}{120}.
 $$
 
-Divide numerator and denominator by $20$:
+Add the numerators:
 
 $$
-\frac{20}{100}=\frac{1}{5}
+20+60=80.
 $$
 
-So:
+Therefore,
 
 $$
-p=0.2
+F(1)=\frac{80}{120}.
 $$
 
-Therefore, the binomial approximation has parameters:
+Simplify:
 
 $$
-n=10
+F(1)=\frac{2}{3}.
 $$
 
-and:
+Decimal form:
 
 $$
-p=0.2
-$$
-
----
-
-## Detailed hypergeometric calculation for k equals 2
-
-For the hypergeometric model:
-
-$$
-P(X=2)
-=
-\frac{\binom{20}{2}\binom{80}{8}}
-{\binom{100}{10}}
-$$
-
-Compute:
-
-$$
-\binom{20}{2}
-=
-\frac{20\cdot19}{2\cdot1}
-$$
-
-$$
-20\cdot19=380
-$$
-
-$$
-2\cdot1=2
-$$
-
-$$
-\binom{20}{2}
-=
-\frac{380}{2}
-$$
-
-$$
-\binom{20}{2}=190
-$$
-
-Also:
-
-$$
-\binom{80}{8}=28987537150
-$$
-
-and:
-
-$$
-\binom{100}{10}=17310309456440
-$$
-
-Now substitute:
-
-$$
-P(X=2)
-=
-\frac{190\cdot28987537150}
-{17310309456440}
-$$
-
-Compute the numerator:
-
-$$
-190\cdot28987537150=5507632058500
-$$
-
-So:
-
-$$
-P(X=2)
-=
-\frac{5507632058500}{17310309456440}
-$$
-
-Divide:
-
-$$
-P(X=2)\approx0.3182
+F(1)\approx 0.6667.
 $$
 
 ---
 
-## Detailed binomial calculation for k equals 2
+## $F(2)=P(X \leq 2)$
 
-For the binomial model:
+This includes:
+
+$$
+X=0,
+$$
+
+$$
+X=1,
+$$
+
+and
+
+$$
+X=2.
+$$
+
+So,
+
+$$
+F(2)=P(X=0)+P(X=1)+P(X=2).
+$$
+
+Substitute:
+
+$$
+F(2)=\frac{20}{120}+\frac{60}{120}+\frac{36}{120}.
+$$
+
+Add the numerators:
+
+$$
+20+60+36=116.
+$$
+
+Therefore,
+
+$$
+F(2)=\frac{116}{120}.
+$$
+
+Simplify:
+
+$$
+F(2)=\frac{29}{30}.
+$$
+
+Decimal form:
+
+$$
+F(2)\approx 0.9667.
+$$
+
+---
+
+## $F(3)=P(X \leq 3)$
+
+This includes all possible values of $X$:
+
+$$
+X=0,1,2,3.
+$$
+
+Therefore,
+
+$$
+F(3)=1.
+$$
+
+---
+
+## CDF Table
+
+| $k$ | $F(k)=P(X \leq k)$ |
+| --: | -----------------: |
+|   0 |           $0.1667$ |
+|   1 |           $0.6667$ |
+|   2 |           $0.9667$ |
+|   3 |           $1.0000$ |
+
+---
+
+## CDF Graph
+
+The CDF graph is a step graph.
+
+| $k$ | $F(k)$ | Bar                            |
+| --: | -----: | ------------------------------ |
+|   0 | 0.1667 | █████                          |
+|   1 | 0.6667 | ████████████████████           |
+|   2 | 0.9667 | █████████████████████████████  |
+|   3 | 1.0000 | ██████████████████████████████ |
+
+The CDF always increases or stays the same. It never decreases.
+
+---
+
+# 5. Effect of Parameter Changes
+
+Now we explain how the distribution changes when parameters change.
+
+---
+
+## 5.1. Effect of Changing the Sample Size
+
+In the original example,
+
+$$
+N=10,
+$$
+
+$$
+K=4,
+$$
+
+and
+
+$$
+n=3.
+$$
+
+Now suppose we still have 10 balls and 4 red balls, but we select 5 balls instead of 3.
+
+So now:
+
+$$
+N=10,
+$$
+
+$$
+K=4,
+$$
+
+$$
+n=5.
+$$
+
+The random variable is still:
+
+$$
+X = \text{the number of red balls in the sample}.
+$$
+
+The total number of possible samples is:
+
+$$
+\binom{10}{5}.
+$$
+
+Calculate:
+
+$$
+\binom{10}{5}
+=
+
+\frac{10 \cdot 9 \cdot 8 \cdot 7 \cdot 6}{5 \cdot 4 \cdot 3 \cdot 2 \cdot 1}.
+$$
+
+The numerator is:
+
+$$
+10 \cdot 9 \cdot 8 \cdot 7 \cdot 6 = 30240.
+$$
+
+The denominator is:
+
+$$
+5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 120.
+$$
+
+Therefore,
+
+$$
+\binom{10}{5}
+=
+\frac{30240}{120}
+=
+252.
+$$
+
+The PMF is:
+
+$$
+P(X=k)
+=
+
+\frac{\binom{4}{k}\binom{6}{5-k}}{\binom{10}{5}}.
+$$
+
+The possible values are:
+
+$$
+X=0,1,2,3,4.
+$$
+
+---
+
+## PMF for $n=5$
+
+### $P(X=0)$
+
+$$
+P(X=0)
+=
+
+\frac{\binom{4}{0}\binom{6}{5}}{\binom{10}{5}}.
+$$
+
+$$
+\binom{4}{0}=1.
+$$
+
+$$
+\binom{6}{5}=6.
+$$
+
+Therefore,
+
+$$
+P(X=0)
+=
+\frac{1 \cdot 6}{252}
+=
+\frac{6}{252}
+\approx 0.0238.
+$$
+
+---
+
+### $P(X=1)$
+
+$$
+P(X=1)
+=
+
+\frac{\binom{4}{1}\binom{6}{4}}{\binom{10}{5}}.
+$$
+
+$$
+\binom{4}{1}=4.
+$$
+
+$$
+\binom{6}{4}=15.
+$$
+
+Therefore,
+
+$$
+P(X=1)
+=
+\frac{4 \cdot 15}{252}
+=
+\frac{60}{252}
+\approx 0.2381.
+$$
+
+---
+
+### $P(X=2)$
+
+$$
+P(X=2)
+=
+
+\frac{\binom{4}{2}\binom{6}{3}}{\binom{10}{5}}.
+$$
+
+$$
+\binom{4}{2}=6.
+$$
+
+$$
+\binom{6}{3}=20.
+$$
+
+Therefore,
+
+$$
+P(X=2)
+=
+\frac{6 \cdot 20}{252}
+=
+\frac{120}{252}
+\approx 0.4762.
+$$
+
+---
+
+### $P(X=3)$
+
+$$
+P(X=3)
+=
+
+\frac{\binom{4}{3}\binom{6}{2}}{\binom{10}{5}}.
+$$
+
+$$
+\binom{4}{3}=4.
+$$
+
+$$
+\binom{6}{2}=15.
+$$
+
+Therefore,
+
+$$
+P(X=3)
+=
+\frac{4 \cdot 15}{252}
+=
+\frac{60}{252}
+\approx 0.2381.
+$$
+
+---
+
+### $P(X=4)$
+
+$$
+P(X=4)
+=
+
+\frac{\binom{4}{4}\binom{6}{1}}{\binom{10}{5}}.
+$$
+
+$$
+\binom{4}{4}=1.
+$$
+
+$$
+\binom{6}{1}=6.
+$$
+
+Therefore,
+
+$$
+P(X=4)
+=
+\frac{1 \cdot 6}{252}
+=
+\frac{6}{252}
+\approx 0.0238.
+$$
+
+---
+
+## PMF Table for $n=5$
+
+| $x$ | $P(X=x)$ |
+| --: | -------: |
+|   0 | $0.0238$ |
+|   1 | $0.2381$ |
+|   2 | $0.4762$ |
+|   3 | $0.2381$ |
+|   4 | $0.0238$ |
+
+When the sample size increases from 3 to 5, the distribution moves to the right.
+
+This is because selecting more balls increases the expected number of red balls.
+
+For $n=3$:
+
+$$
+E(X)
+=
+n \cdot \frac{K}{N}
+=
+3 \cdot \frac{4}{10}
+=
+1.2.
+$$
+
+For $n=5$:
+
+$$
+E(X)
+=
+n \cdot \frac{K}{N}
+=
+5 \cdot \frac{4}{10}
+=
+\frac{20}{10}
+=
+2.
+$$
+
+So when the sample size increases, the average number of red balls also increases.
+
+---
+## 5.2. Effect of Changing the Number of Distinguished Objects
+
+Now we keep the total number of balls and the sample size the same, but we increase the number of red balls.
+
+Suppose:
+
+$$
+N=10,
+$$
+
+$$
+K=7,
+$$
+
+and
+
+$$
+n=3.
+$$
+
+So there are 7 red balls and 3 white balls.
+
+The PMF is:
+
+$$
+P(X=k)
+=
+\frac{\binom{7}{k}\binom{3}{3-k}}{\binom{10}{3}}.
+$$
+
+The denominator is still:
+
+$$
+\binom{10}{3}=120.
+$$
+
+---
+
+## PMF for $K=7$
+
+### $P(X=0)$
+
+$$
+P(X=0)
+=
+\frac{\binom{7}{0}\binom{3}{3}}{\binom{10}{3}}.
+$$
+
+$$
+\binom{7}{0}=1.
+$$
+
+$$
+\binom{3}{3}=1.
+$$
+
+Therefore,
+
+$$
+P(X=0)
+=
+\frac{1 \cdot 1}{120}
+=
+\frac{1}{120}
+\approx 0.0083.
+$$
+
+---
+
+### $P(X=1)$
+
+$$
+P(X=1)
+=
+\frac{\binom{7}{1}\binom{3}{2}}{\binom{10}{3}}.
+$$
+
+$$
+\binom{7}{1}=7.
+$$
+
+$$
+\binom{3}{2}=3.
+$$
+
+Therefore,
+
+$$
+P(X=1)
+=
+\frac{7 \cdot 3}{120}
+=
+\frac{21}{120}
+=
+0.175.
+$$
+
+---
+
+### $P(X=2)$
+
+$$
+P(X=2)
+=
+\frac{\binom{7}{2}\binom{3}{1}}{\binom{10}{3}}.
+$$
+
+Calculate:
+
+$$
+\binom{7}{2}
+=
+\frac{7 \cdot 6}{2 \cdot 1}
+=
+\frac{42}{2}
+=
+21.
+$$
+
+Also,
+
+$$
+\binom{3}{1}=3.
+$$
+
+Therefore,
+
+$$
+P(X=2)
+=
+\frac{21 \cdot 3}{120}
+=
+\frac{63}{120}
+=
+0.525.
+$$
+
+---
+
+### $P(X=3)$
+
+$$
+P(X=3)
+=
+\frac{\binom{7}{3}\binom{3}{0}}{\binom{10}{3}}.
+$$
+
+Calculate:
+
+$$
+\binom{7}{3}
+=
+\frac{7 \cdot 6 \cdot 5}{3 \cdot 2 \cdot 1}.
+$$
+
+The numerator is:
+
+$$
+7 \cdot 6 \cdot 5 = 210.
+$$
+
+The denominator is:
+
+$$
+3 \cdot 2 \cdot 1 = 6.
+$$
+
+Therefore,
+
+$$
+\binom{7}{3}
+=
+\frac{210}{6}
+=
+35.
+$$
+
+Also,
+
+$$
+\binom{3}{0}=1.
+$$
+
+Therefore,
+
+$$
+P(X=3)
+=
+\frac{35 \cdot 1}{120}
+=
+\frac{35}{120}
+\approx 0.2917.
+$$
+
+---
+
+## PMF Table for $K=7$
+
+| $x$ | $P(X=x)$ |
+|---:|---:|
+| 0 | $0.0083$ |
+| 1 | $0.1750$ |
+| 2 | $0.5250$ |
+| 3 | $0.2917$ |
+
+When the number of red balls increases from 4 to 7, the distribution shifts to the right.
+
+This is because red balls become more common in the population.
+
+For $K=4$:
+
+$$
+E(X)
+=
+3 \cdot \frac{4}{10}
+=
+\frac{12}{10}
+=
+1.2.
+$$
+
+For $K=7$:
+
+$$
+E(X)
+=
+3 \cdot \frac{7}{10}
+=
+\frac{21}{10}
+=
+2.1.
+$$
+
+So increasing the number of distinguished objects increases the expected value of $X$.
+
+---
+
+# 6. Computing Probabilities
+
+Now we compute probabilities such as:
+
+$$
+P(X=k),
+$$
+
+$$
+P(X \leq k),
+$$
+
+$$
+P(X \geq k),
+$$
+
+and
+
+$$
+P(a \leq X \leq b).
+$$
+
+We use the original example:
+
+$$
+N=10,
+$$
+
+$$
+K=4,
+$$
+
+$$
+n=3.
+$$
+
+The PMF values are:
+
+$$
+P(X=0)=\frac{20}{120}=0.1667,
+$$
+
+$$
+P(X=1)=\frac{60}{120}=0.5000,
+$$
+
+$$
+P(X=2)=\frac{36}{120}=0.3000,
+$$
+
+$$
+P(X=3)=\frac{4}{120}=0.0333.
+$$
+
+---
+
+## 6.1. Computing $P(X=k)$
+
+Example:
+
+$$
+P(X=2).
+$$
+
+This means selecting exactly 2 red balls.
+
+We need:
+
+$$
+2 \text{ red balls}
+$$
+
+and
+
+$$
+1 \text{ white ball}.
+$$
+
+So,
+
+$$
+P(X=2)
+=
+\frac{\binom{4}{2}\binom{6}{1}}{\binom{10}{3}}.
+$$
+
+Now calculate:
+
+$$
+\binom{4}{2}=6,
+$$
+
+$$
+\binom{6}{1}=6,
+$$
+
+and
+
+$$
+\binom{10}{3}=120.
+$$
+
+Therefore,
+
+$$
+P(X=2)
+=
+\frac{6 \cdot 6}{120}
+=
+\frac{36}{120}
+=
+0.3.
+$$
+
+So,
+
+$$
+P(X=2)=0.3.
+$$
+
+---
+
+## 6.2. Computing $P(X \leq k)$
+
+Example:
+
+$$
+P(X \leq 1).
+$$
+
+This means selecting at most 1 red ball.
+
+So the possible values are:
+
+$$
+X=0
+$$
+
+or
+
+$$
+X=1.
+$$
+
+Therefore,
+
+$$
+P(X \leq 1)
+=
+P(X=0)+P(X=1).
+$$
+
+Substitute:
+
+$$
+P(X \leq 1)
+=
+\frac{20}{120}
++
+\frac{60}{120}.
+$$
+
+Add:
+
+$$
+P(X \leq 1)
+=
+\frac{80}{120}.
+$$
+
+Simplify:
+
+$$
+P(X \leq 1)
+=
+\frac{2}{3}.
+$$
+
+Decimal form:
+
+$$
+P(X \leq 1)
+\approx 0.6667.
+$$
+
+---
+
+## 6.3. Computing $P(X \geq k)$
+
+Example:
+
+$$
+P(X \geq 2).
+$$
+
+This means selecting at least 2 red balls.
+
+So the possible values are:
+
+$$
+X=2
+$$
+
+or
+
+$$
+X=3.
+$$
+
+Therefore,
+
+$$
+P(X \geq 2)
+=
+P(X=2)+P(X=3).
+$$
+
+Substitute:
+
+$$
+P(X \geq 2)
+=
+\frac{36}{120}
++
+\frac{4}{120}.
+$$
+
+Add:
+
+$$
+P(X \geq 2)
+=
+\frac{40}{120}.
+$$
+
+Simplify:
+
+$$
+P(X \geq 2)
+=
+\frac{1}{3}.
+$$
+
+Decimal form:
+
+$$
+P(X \geq 2)
+\approx 0.3333.
+$$
+
+---
+
+## 6.4. Computing $P(a \leq X \leq b)$
+
+Example:
+
+$$
+P(1 \leq X \leq 2).
+$$
+
+This means selecting either 1 red ball or 2 red balls.
+
+So,
+
+$$
+P(1 \leq X \leq 2)
+=
+P(X=1)+P(X=2).
+$$
+
+Substitute:
+
+$$
+P(1 \leq X \leq 2)
+=
+\frac{60}{120}
++
+\frac{36}{120}.
+$$
+
+Add:
+
+$$
+P(1 \leq X \leq 2)
+=
+\frac{96}{120}.
+$$
+
+Simplify:
+
+$$
+P(1 \leq X \leq 2)
+=
+0.8.
+$$
+
+Therefore,
+
+$$
+P(1 \leq X \leq 2)=0.8.
+$$
+
+---
+
+# 7. Comparison with the Binomial Model
+
+The hypergeometric model and the binomial model are similar because both count the number of successes in a sample.
+
+However, the main difference is replacement.
+
+The hypergeometric distribution is used when sampling is done without replacement.
+
+The binomial distribution is used when trials are independent and the probability of success is constant.
+
+---
+
+## Hypergeometric Model
+
+In the hypergeometric model:
+
+* We sample without replacement.
+* The population is finite.
+* The probability changes after each selection.
+* The trials are dependent.
+
+For example, if we select a red ball first and do not put it back, then the number of red balls decreases from 4 to 3.
+
+So the probability of getting a red ball on the next draw changes.
+
+---
+
+## Binomial Model
+
+In the binomial model:
+
+* Trials are independent.
+* The probability of success stays constant.
+* It is like sampling with replacement.
+
+In our example, the probability of selecting a red ball at the beginning is:
+
+$$
+p=\frac{4}{10}=0.4.
+$$
+
+If we used a binomial approximation, we would assume that this probability stays constant for all 3 selections.
+
+Let
+
+$$
+Y = \text{the number of red balls in 3 independent trials}.
+$$
+
+Then,
+
+$$
+Y \sim \text{Binomial}(3,0.4).
+$$
+
+The binomial PMF is:
+
+$$
+P(Y=k)
+=
+\binom{3}{k}(0.4)^k(0.6)^{3-k}.
+$$
+
+---
+
+## Binomial Calculations
+
+### $P(Y=0)$
+
+$$
+P(Y=0)
+=
+\binom{3}{0}(0.4)^0(0.6)^3.
+$$
+
+Now,
+
+$$
+\binom{3}{0}=1,
+$$
+
+$$
+(0.4)^0=1,
+$$
+
+and
+
+$$
+(0.6)^3=0.6 \cdot 0.6 \cdot 0.6=0.216.
+$$
+
+Therefore,
+
+$$
+P(Y=0)=1 \cdot 1 \cdot 0.216=0.216.
+$$
+
+---
+
+### $P(Y=1)$
+
+$$
+P(Y=1)
+=
+\binom{3}{1}(0.4)^1(0.6)^2.
+$$
+
+Now,
+
+$$
+\binom{3}{1}=3,
+$$
+
+$$
+(0.4)^1=0.4,
+$$
+
+and
+
+$$
+(0.6)^2=0.36.
+$$
+
+Therefore,
+
+$$
+P(Y=1)=3 \cdot 0.4 \cdot 0.36.
+$$
+
+First,
+
+$$
+3 \cdot 0.4=1.2.
+$$
+
+Then,
+
+$$
+1.2 \cdot 0.36=0.432.
+$$
+
+So,
+
+$$
+P(Y=1)=0.432.
+$$
+
+---
+
+### $P(Y=2)$
 
 $$
 P(Y=2)
 =
-\binom{10}{2}(0.2)^2(1-0.2)^{10-2}
+\binom{3}{2}(0.4)^2(0.6)^1.
 $$
 
-First:
+Now,
 
 $$
-1-0.2=0.8
+\binom{3}{2}=3,
 $$
 
-and:
-
 $$
-10-2=8
+(0.4)^2=0.16,
 $$
 
-So:
+and
 
 $$
-P(Y=2)
+(0.6)^1=0.6.
+$$
+
+Therefore,
+
+$$
+P(Y=2)=3 \cdot 0.16 \cdot 0.6.
+$$
+
+First,
+
+$$
+3 \cdot 0.16=0.48.
+$$
+
+Then,
+
+$$
+0.48 \cdot 0.6=0.288.
+$$
+
+So,
+
+$$
+P(Y=2)=0.288.
+$$
+
+---
+
+### $P(Y=3)$
+
+$$
+P(Y=3)
 =
-\binom{10}{2}(0.2)^2(0.8)^8
+\binom{3}{3}(0.4)^3(0.6)^0.
 $$
 
-Compute:
+Now,
 
 $$
-\binom{10}{2}=45
-$$
-
-Compute:
-
-$$
-(0.2)^2=0.2\cdot0.2
+\binom{3}{3}=1,
 $$
 
 $$
-(0.2)^2=0.04
+(0.4)^3=0.4 \cdot 0.4 \cdot 0.4=0.064,
 $$
 
-Compute:
+and
 
 $$
-(0.8)^8=0.16777216
+(0.6)^0=1.
 $$
 
-Now multiply step by step:
+Therefore,
 
 $$
-45\cdot0.04=1.8
-$$
-
-Then:
-
-$$
-1.8\cdot0.16777216=0.301989888
-$$
-
-Therefore:
-
-$$
-P(Y=2)\approx0.3020
+P(Y=3)=1 \cdot 0.064 \cdot 1=0.064.
 $$
 
 ---
 
-## Hypergeometric vs Binomial PMF comparison
+## Comparison Table
 
-| k | Hypergeometric P(X = k) | Hypergeometric graph | Binomial P(Y = k) | Binomial graph |
-|---:|---:|---|---:|---|
-| 0 | 0.0951 | ██████ | 0.1074 | ███████ |
-| 1 | 0.2679 | █████████████████ | 0.2684 | █████████████████ |
-| 2 | 0.3182 | ████████████████████ | 0.3020 | ███████████████████ |
-| 3 | 0.2092 | █████████████ | 0.2013 | █████████████ |
-| 4 | 0.0841 | █████ | 0.0881 | ██████ |
-| 5 | 0.0215 | █ | 0.0264 | ██ |
-| 6 | 0.0035 | █ | 0.0055 | █ |
-| 7 | 0.0004 | █ | 0.0008 | █ |
-| 8 | 0.000023 |  | 0.000074 |  |
-| 9 | 0.0000008 |  | 0.000004 |  |
-| 10 | 0.00000001 |  | 0.0000001 |  |
+| Number of red balls | Hypergeometric | Binomial |
+|---:|---:|---:|
+| 0 | $0.1667$ | $0.2160$ |
+| 1 | $0.5000$ | $0.4320$ |
+| 2 | $0.3000$ | $0.2880$ |
+| 3 | $0.0333$ | $0.0640$ |
+
+The results are similar, but they are not exactly the same.
+
+The hypergeometric model is more accurate here because the balls are selected without replacement.
+
+The binomial model assumes a constant probability of red on each draw, but in the real experiment the probability changes after every draw.
 
 ---
 
-## Interpretation of the comparison
+# 8. Practical Applications of the Hypergeometric Model
 
-The hypergeometric distribution is the correct model because the products are sampled without replacement.
+The hypergeometric distribution is useful when we select a sample from a finite population without replacement.
 
-The binomial distribution is only an approximation.
+---
 
-The two distributions are close in this example because the population size is:
+## Application 1: Quality Control
 
-$$
-N=100
-$$
+Suppose a factory produces 100 items.
 
-and the sample size is:
+Some of these items are defective.
 
-$$
-n=10
-$$
+A quality inspector randomly selects 10 items without replacement.
 
-Since $N$ is large compared to $n$, removing one object from the population does not change the probabilities very much.
-
-Therefore, the hypergeometric distribution can be approximated by a binomial distribution with:
+Let
 
 $$
-p=\frac{K}{N}
+X = \text{the number of defective items in the sample}.
 $$
+
+This is a hypergeometric situation because the selected items are not returned to the population.
+
+---
+
+## Application 2: Card Drawing
+
+Suppose a standard deck has 52 cards.
+
+There are 13 hearts.
+
+We draw 5 cards without replacement.
+
+Let
+
+$$
+X = \text{the number of hearts among the 5 selected cards}.
+$$
+
+This follows a hypergeometric distribution.
+
+---
+
+## Application 3: Student Selection
+
+Suppose a class has 30 students.
+
+8 students passed an exam.
+
+We randomly select 5 students without replacement.
+
+Let
+
+$$
+X = \text{the number of students who passed among the selected students}.
+$$
+
+This can be modeled using a hypergeometric distribution.
+
+---
+
+## Application 4: Survey Sampling
+
+Suppose a city has a fixed number of voters.
+
+Some voters support a certain candidate.
+
+A sample of voters is selected without replacement.
+
+Let
+
+$$
+X = \text{the number of supporters in the sample}.
+$$
+
+This is also a hypergeometric model.
+
+---
+
+# 9. Application and Comparison with a Similar Binomial Model
+
+Now we use the red-ball example as a quality control application.
+
+Suppose the box contains 10 products.
+
+Among them, 4 products are defective.
+
+The defective products correspond to red balls.
+
+The non-defective products correspond to white balls.
+
+We randomly select 3 products for inspection without replacement.
+
+Let
+
+$$
+X = \text{the number of defective products in the sample}.
+$$
+
+Then,
+
+$$
+X \sim \text{Hypergeometric}(N=10,K=4,n=3).
+$$
+
+The hypergeometric probabilities are:
+
+| $x$ | $P(X=x)$ |
+|---:|---:|
+| 0 | $0.1667$ |
+| 1 | $0.5000$ |
+| 2 | $0.3000$ |
+| 3 | $0.0333$ |
+
+This is the correct model because the selected products are not returned to the population.
+
+Now compare it with a binomial model.
+
+The probability that one randomly selected product is defective is:
+
+$$
+p=\frac{4}{10}=0.4.
+$$
+
+If we incorrectly assume that each selection is independent, then we can use:
+
+$$
+Y \sim \text{Binomial}(3,0.4).
+$$
+
+The binomial probabilities are:
+
+| $y$ | $P(Y=y)$ |
+|---:|---:|
+| 0 | $0.2160$ |
+| 1 | $0.4320$ |
+| 2 | $0.2880$ |
+| 3 | $0.0640$ |
+
+The binomial model is only an approximation here.
+
+The hypergeometric model is better because the sample is selected without replacement.
+
+If the population were very large and the sample size were very small, then the binomial model would be a good approximation.
+
+For example, selecting 3 products from 10 products changes the population noticeably.
+
+But selecting 3 products from 10,000 products does not change the population much.
+
+Therefore, for large populations and small samples, the binomial approximation becomes more accurate.
 
 ---
 
 # Final Summary
 
----
+The hypergeometric distribution is used when we sample without replacement from a finite population.
 
-We built the hypergeometric model step by step.
-
-## Experiment
-
-The experiment is sampling without replacement from a finite population.
-
----
-
-## Sample space
-
-The sample space is:
+In our example, we have:
 
 $$
-\Omega
-=
-\{\text{all subsets of size } n \text{ from } \{1,2,\dots,N\}\}
+N=10,
 $$
 
----
-
-## Elementary outcome
-
-An elementary outcome is:
-
 $$
-\omega \subseteq \{1,2,\dots,N\}
+K=4,
 $$
 
-with:
-
 $$
-|\omega|=n
+n=3.
 $$
 
----
-
-## Random variable
+There are 10 balls in total, 4 of them are red, and we select 3 balls without replacement.
 
 The random variable is:
 
 $$
-X(\omega)=\text{number of distinguished objects in the sample}
+X = \text{the number of red balls in the sample}.
 $$
 
----
-
-## PMF
-
-The probability mass function is:
+The PMF is:
 
 $$
 P(X=k)
 =
-\frac{\binom{K}{k}\binom{N-K}{n-k}}
-{\binom{N}{n}}
+\frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}.
 $$
 
----
+For our example:
 
-## Support
+$$
+P(X=k)
+=
+\frac{\binom{4}{k}\binom{6}{3-k}}{\binom{10}{3}}.
+$$
 
 The support is:
 
 $$
-X \in \{\max(0,n-(N-K)), \dots, \min(n,K)\}
+X \in \{0,1,2,3\}.
 $$
 
----
-
-## CDF
-
-The cumulative distribution function is:
+The PMF values are:
 
 $$
-F(k)
-=
-\sum_{i=\max(0,n-(N-K))}^{k}
-\frac{\binom{K}{i}\binom{N-K}{n-i}}
-{\binom{N}{n}}
+P(X=0)=0.1667,
 $$
 
----
+$$
+P(X=1)=0.5000,
+$$
 
-## Core idea
+$$
+P(X=2)=0.3000,
+$$
 
-The hypergeometric distribution models the number of successes when sampling without replacement from a finite population.
+$$
+P(X=3)=0.0333.
+$$
 
-It is different from the binomial distribution because the draws are dependent and the probability of success changes after each draw.
+The CDF values are:
+
+$$
+P(X \leq 0)=0.1667,
+$$
+
+$$
+P(X \leq 1)=0.6667,
+$$
+
+$$
+P(X \leq 2)=0.9667,
+$$
+
+$$
+P(X \leq 3)=1.
+$$
+
+The hypergeometric model differs from the binomial model because hypergeometric sampling is without replacement, while binomial sampling assumes independent trials with a constant probability.
